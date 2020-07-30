@@ -13,6 +13,7 @@ class Simulator:
     def addBandit(self, bandit_p):
         self.banditsList_.append(bandit_p)
         self.policy_.vectBanditsEvals_.append(bandit_p.initialEval_)
+        self.policy_.vectBanditsParamEstimates_.append(bandit_p.initialEval_)
         self.policy_.vectCountBanditsPulls_.append(0)
         self.nbBandits_ += 1
 
