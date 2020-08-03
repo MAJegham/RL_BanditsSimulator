@@ -1,3 +1,9 @@
+ # greedy.py
+ # author: aziz jegham
+ # Created on Tue July 30 2020
+ # Copyright (C) 2020 aziz jegham
+ # License: GNU General Public License version 3
+
 from rlsimulator.simulator import Simulator
 from rlsimulator.policies.policies import GreedyPolicy
 from rlsimulator.bandits.bandits import BernoulliBandit

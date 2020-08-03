@@ -1,4 +1,38 @@
+ # simulator.py
+ # author: aziz jegham
+ # Created on Tue July 30 2020
+ # Copyright (C) 2020 aziz jegham
+ # License: GNU General Public License version 3
+
 class Simulator:
+    """
+    Class to simulate a bandits problem
+
+    Parameters
+    ----------
+    policy_p : the policy to use. 
+
+    Attributes
+    ----------
+    step_ : timestep ie number of times actions were performed.
+    
+    nbBandits_ : number of the bandits used in the simulator.
+
+    policy_ : the policy to use to choose the action to perform.
+
+    banditsList_ : List of the bandits available in the simulator.
+
+    actionsList_ : List of the actions performed ie. indices of the bandits pulled at each step.
+
+    rewardsList_ : reward obtained at each timestep.
+
+    Methods
+    -------
+    addBandit : adds a bandit to the available bandits in the simulator.
+    
+    nextStep : returns the chosen action and its reward.
+    """
+
     def __init__(self, policy_p):
         self.step_ = 0
         self.nbBandits_ = 0
@@ -11,6 +45,11 @@ class Simulator:
 
 
     def addBandit(self, bandit_p):
+        """
+        adds a bandit to the available bandits in the simulator.
+
+        bandit_p : the bandit to add.
+        """
         self.banditsList_.append(bandit_p)
         self.policy_.vectBanditsEvals_.append(bandit_p.initialEval_)
         self.policy_.vectBanditsParamEstimates_.append(bandit_p.initialEval_)
@@ -19,6 +58,9 @@ class Simulator:
 
 
     def nextStep(self):
+        """
+        returns the chosen action and its reward.
+        """
         self.step_ += 1
 
         action_l = self.policy_.getNexAction()
