@@ -44,15 +44,19 @@ class Simulator:
         self.rewardsList_= []
 
 
-    def addBandit(self, bandit_p):
+    def addBandit(self, bandit_p, initialEval_p):
         """
         adds a bandit to the available bandits in the simulator.
 
+        Parameters
+        ----------        
         bandit_p : the bandit to add.
+        
+        initialEval_p : initial score associated to the bandit
         """
         self.banditsList_.append(bandit_p)
-        self.policy_.vectBanditsEvals_.append(bandit_p.initialEval_)
-        self.policy_.vectBanditsParamEstimates_.append(bandit_p.initialEval_)
+        self.policy_.vectBanditsEvals_.append(initialEval_p)
+        self.policy_.vectBanditsParamEstimates_.append(initialEval_p)
         self.policy_.vectCountBanditsPulls_.append(0)
         self.nbBandits_ += 1
 

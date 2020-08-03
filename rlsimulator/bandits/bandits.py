@@ -9,10 +9,6 @@ import numpy as np
 class _BaseBandit:
     """
     Abstract base class for bandits.
-    
-    Attributes
-    ----------
-    initialEval_ : initial score associated to the bandit
 
     Methods
     -------
@@ -20,8 +16,6 @@ class _BaseBandit:
 
 
     """
-    def __init__(self, initialEval_p):
-        self.initialEval_ = initialEval_p
 
     def getReward(self, step_p):
         pass
@@ -34,8 +28,6 @@ class BernoulliBandit(_BaseBandit):
 
     Parameters 
     ----------
-    initialEval_p : double indicating the initial score assigned to the bandit.
-
     proba_p : the probability of producing a reward
 
 
@@ -50,17 +42,13 @@ class BernoulliBandit(_BaseBandit):
     getReward : returns the reward won upon choosing the bandit.
     """
     
-    def __init__(self, initialEval_p, proba_p):
-        self.initialEval_ = initialEval_p
+    def __init__(self, proba_p):
         self.proba_ = proba_p
 
     def getReward(self, step_p):
         """
             returns the reward won upon choosing the bandit.
-            Produces a reward of 1 with proBandits have an initial evaluation representing the score of the bandit used when choosing
-        among multiple ones.
-    Bandits implement a getReward method that returns the reward won upon choosing the bandit.
-bability proba_ otherwise 0
+            Produces a reward of 1 with probability proba_ otherwise 0
 
             step_p : the time step of pulling. Unused here but useful for non-stationary bandits.
         """
@@ -74,8 +62,6 @@ class NormalBandit(_BaseBandit):
 
     Parameters 
     ----------
-    initialEval_p : double indicating the initial score assigned to the bandit.
-
     mean_p : mean of the reward's distribution
     
     std_p : standard deviation of the reward's distribution
@@ -93,8 +79,7 @@ class NormalBandit(_BaseBandit):
     -------
     getReward : returns the reward won upon choosing the bandit.
     """
-    def __init__(self, initialEval_p, mean_p, std_p):
-        self.initialEval_ = initialEval_p
+    def __init__(self, mean_p, std_p):
         self.mean_ = mean_p
         self.std_ = std_p
 
