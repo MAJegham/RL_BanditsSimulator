@@ -11,6 +11,8 @@ from rlsimulator.plots.plots import plotRewards
 from rlsimulator.plots.plots import plotEvals
 from rlsimulator.plots.plots import plotAggregates
 
+from matplotlib import pyplot as plt
+
 policy_l = EpsilonGreedyPolicy(0.1)
 simulator_l = Simulator(policy_l)
 
@@ -30,3 +32,5 @@ plotRewards(simulator_l, 500)
 
 simulator_l.reinit()
 plotAggregates(simulator_l, 2500, 20, 50)
+
+plt.show()

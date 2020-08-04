@@ -16,11 +16,13 @@ def plotRewards(simulator_p, nsteps_p):
     for step_cntr in range(nsteps_p):
         simulator_p.nextStep()
     
+    rewardsFig = plt.figure()
     plt.xlabel("step")
     plt.ylabel("reward")
     plt.title("reward per step")
     plt.scatter(range(1, nsteps_p+1), simulator_p.getRewardsList())
-    plt.show()
+
+    return rewardsFig
 
 def plotEvals(simulator_p, nsteps_p):
     evals_l = []
@@ -28,6 +30,7 @@ def plotEvals(simulator_p, nsteps_p):
         evals_l.append(simulator_p.policy_.vectBanditsEvals_.copy())
         simulator_p.nextStep()
     
+    evalsFig = plt.figure()
     plt.xlabel("step")
     plt.ylabel("evaluation")
     plt.title("bandits evaluations evolution")
@@ -35,7 +38,7 @@ def plotEvals(simulator_p, nsteps_p):
         bandit_evals = [stepEvals_l[bandit_cntr-1] for stepEvals_l in evals_l]
         plt.plot(bandit_evals, label='bandit %s'%bandit_cntr)
     plt.legend()
-    plt.show()
+    return evalsFig
 
 def plotAggregates(simulator_p, nsteps_p, runs_p, window_p = 10):
     # Simulate runs and store results
@@ -61,7 +64,7 @@ def plotAggregates(simulator_p, nsteps_p, runs_p, window_p = 10):
         aggEvals_l.append(aggStepEvals_l) 
     
     # Plot aggregate evaluations 
-    plt.figure()
+    aggEvalsFig = plt.figure()
     plt.xlabel("step")
     plt.ylabel("evaluation")
     plt.title("bandits aggregate evaluations evolution (%s runs)"%runs_p)
@@ -80,7 +83,7 @@ def plotAggregates(simulator_p, nsteps_p, runs_p, window_p = 10):
     rollingRewards_l = rollingAverage(aggRewards_l, window_p)
     
     # Plot aggregate rewards 
-    plt.figure()
+    aggRewardsFig = plt.figure()
     plt.xlabel("step")
     plt.ylabel("reward")
     plt.title("aggregate rewards evolution (%s runs)"%runs_p)
@@ -88,4 +91,4 @@ def plotAggregates(simulator_p, nsteps_p, runs_p, window_p = 10):
     plt.plot(range(1, nsteps_p+1), rollingRewards_l, "r", label='mean reward over last %i steps'%window_p)
     plt.legend()
 
-    plt.show()
+    return aggEvalsFig, aggRewardsFig
