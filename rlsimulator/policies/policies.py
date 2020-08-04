@@ -51,7 +51,7 @@ class _BasePolicy:
     def getNexAction(self):
         pass
 
-    def update(action_p, reward_p):
+    def update(self, action_p, reward_p):
         """
         updates the policy's attributes.
         
