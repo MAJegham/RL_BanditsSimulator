@@ -37,6 +37,17 @@ class _BasePolicy:
         self.vectBanditsParamEstimates_ = []
         self.step_ = 0
 
+    def reinit(self, initialEvals_p):
+        self.vectCountBanditsPulls_ = [0] * len(initialEvals_p)
+        self.vectBanditsEvals_ = initialEvals_p.copy()
+        self.vectBanditsParamEstimates_ = initialEvals_p.copy()
+        self.step_ = 0
+
+    def addBandit(self, initialEval_p):
+        self.vectBanditsEvals_.append(initialEval_p)
+        self.vectBanditsParamEstimates_.append(initialEval_p)
+        self.vectCountBanditsPulls_.append(0)
+
     def getNexAction(self):
         pass
 

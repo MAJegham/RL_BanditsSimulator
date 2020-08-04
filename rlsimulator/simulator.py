@@ -4,6 +4,9 @@
  # Copyright (C) 2020 aziz jegham
  # License: GNU General Public License version 3
 
+from .policies.policies import _BasePolicy
+from .bandits.bandits import _BaseBandit
+
 class Simulator:
     """
     Class to simulate a bandits problem
@@ -34,15 +37,22 @@ class Simulator:
     """
 
     def __init__(self, policy_p):
-        self.step_ = 0
-        self.nbBandits_ = 0
-        
-        self.policy_ = policy_p
-        
         self.banditsList_ = []
+        self.nbBandits_ = 0
+        self.initialEvals_= []
+
+        self.step_ = 0
         self.actionsList_ = []
         self.rewardsList_= []
 
+        self.policy_ = policy_p
+
+    def reinit(self):
+        self.step_ = 0
+        self.actionsList_ = []
+        self.rewardsList_= []
+
+        self.policy_.reinit(self.initialEvals_)
 
     def addBandit(self, bandit_p, initialEval_p):
         """
@@ -51,13 +61,15 @@ class Simulator:
         Parameters
         ----------        
         bandit_p : the bandit to add.
-        
+
         initialEval_p : initial score associated to the bandit
         """
+        if self.step_ > 0:
+            print("ERROR : added bandit when the simulation is already running.")
+
         self.banditsList_.append(bandit_p)
-        self.policy_.vectBanditsEvals_.append(initialEval_p)
-        self.policy_.vectBanditsParamEstimates_.append(initialEval_p)
-        self.policy_.vectCountBanditsPulls_.append(0)
+        self.initialEvals_.append(initialEval_p)
+        self.policy_.addBandit(initialEval_p)
         self.nbBandits_ += 1
 
 
@@ -76,6 +88,9 @@ class Simulator:
         self.policy_.update(action_l, reward_l)
 
         return action_l, reward_l
+
+    def getRewardsList(self):
+        return self.rewardsList_
 
 
     
