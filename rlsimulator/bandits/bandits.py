@@ -91,3 +91,53 @@ class NormalBandit(_BaseBandit):
             step_p : the time step of pulling. Unused here but useful for non-stationary bandits.
         """
         return np.random.normal(self.mean_, self.std_, 1)[0]
+
+class IncrementalNormalBandit(_BaseBandit):
+    """
+    Implements a non-stationary bandit.
+
+    The bandit produces a reward that has a normal distribution whose mean increases each
+     nbStepsToIncrement_.
+
+    Parameters 
+    ----------
+    mean_p : initial mean of the reward's distribution
+    
+    std_p : standard deviation of the reward's distribution
+
+    nbStepsToIncrement_p : number of steps upon which the mean will be increased
+
+    increment_p : increment to the mean
+
+
+    Attributes
+    ----------
+    initialEval_ : initial score associated to the bandit
+
+    mean_ : mean of the reward's distribution
+    
+    std_ : standard deviation of the reward's distribution
+
+    nbStepsToIncrement_ : number of steps upon which the mean will be increased
+
+    increment_ : increment to the mean
+
+    Methods
+    -------
+    getReward : returns the reward won upon choosing the bandit.
+    """
+    def __init__(self, mean_p, std_p, nbStepsToIncrement_p, increment_p):
+        self.mean_ = mean_p
+        self.std_ = std_p
+        self.nbStepsToIncrement_ = nbStepsToIncrement_p
+        self.increment_ = increment_p
+
+    def getReward(self, step_p):
+        """
+            returns the reward won upon choosing the bandit.
+            Produces a reward pulled from a normal distribution N(mean_, std_)
+
+            step_p : the time step of pulling. Unused here but useful for non-stationary bandits.
+        """
+        increments_l = step_p // self.nbStepsToIncrement_
+        return np.random.normal(self.mean_ + increments_l*self.increment_ , self.std_, 1)[0]
