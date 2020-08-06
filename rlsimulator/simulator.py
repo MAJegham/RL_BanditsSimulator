@@ -92,5 +92,8 @@ class Simulator:
     def getRewardsList(self):
         return self.rewardsList_
 
+    def getActionsList(self):
+        return self.actionsList_
+
 
     
