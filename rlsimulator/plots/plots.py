@@ -11,6 +11,8 @@ from ..utils.utils import progressBar
 import sys
 import numpy as np
 from matplotlib import pyplot as plt
+from matplotlib import cm
+import matplotlib.patches as mpatches
 
 def plotRewards(simulator_p, nsteps_p):
     for step_cntr in range(nsteps_p):
@@ -20,7 +22,16 @@ def plotRewards(simulator_p, nsteps_p):
     plt.xlabel("step")
     plt.ylabel("reward")
     plt.title("reward per step")
-    plt.scatter(range(1, nsteps_p+1), simulator_p.getRewardsList())
+    
+    cmap_l = cm.get_cmap('viridis', simulator_p.nbBandits_).colors
+    plt.scatter(range(1, nsteps_p+1), simulator_p.getRewardsList(), c=cmap_l[simulator_p.getActionsList()])
+    
+    patches_l = []
+    for bandit_cntr in range(simulator_p.nbBandits_):
+        patch_l = mpatches.Patch(color=cmap_l[bandit_cntr], label='Bandit %s'%(bandit_cntr+1))
+        patches_l.append(patch_l)
+    plt.legend(handles = patches_l)
+
 
     return rewardsFig
 
@@ -34,9 +45,12 @@ def plotEvals(simulator_p, nsteps_p):
     plt.xlabel("step")
     plt.ylabel("evaluation")
     plt.title("bandits evaluations evolution")
+    
+    cmap_l = cm.get_cmap('viridis', simulator_p.nbBandits_).colors
     for bandit_cntr in range(1, 1+len(evals_l[0])):
         bandit_evals = [stepEvals_l[bandit_cntr-1] for stepEvals_l in evals_l]
-        plt.plot(bandit_evals, label='bandit %s'%bandit_cntr)
+        plt.plot(bandit_evals, c=cmap_l[bandit_cntr-1],label='bandit %s'%bandit_cntr)
+    
     plt.legend()
     return evalsFig
 
